@@ -1,0 +1,162 @@
+:root{
+  --ocean-deep:#062b4f;
+  --ocean-mid:#0a4d68;
+  --ocean-light:#0e7490;
+  --aqua:#14b8a6;
+  --sand:#f1f5f9;
+  --white:#ffffff;
+  --error: #f87171;
+  --novel: #f59e0b;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%; scroll-behavior: smooth;}
+body{
+  margin:0;
+  font-family:'Nunito',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  color:var(--sand);
+  background:linear-gradient(180deg,var(--ocean-deep),var(--ocean-mid) 60%,var(--ocean-light));
+}
+
+.ocean-bg{min-height:100%;position:relative;overflow-x:hidden}
+
+.header{padding:40px 24px 8px;text-align:center}
+.brand{display:flex;gap:12px;align-items:center;justify-content:center;font-size: x-large;}
+.header h1{margin:0;color:#e0f2fe;letter-spacing:.5px}
+.tagline{margin:6px 0 0;color:#bfe7f7}
+
+.container{max-width:1100px;margin:0 auto;padding:24px 24px 160px;}
+
+.card{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:16px;
+  padding:18px 24px;
+  backdrop-filter: blur(6px);
+  box-shadow:0 10px 30px rgba(0,0,0,.15);
+}
+
+.input-card{margin-bottom:18px}
+.input-card h2{margin:0 0 8px;color:#e5fbff}
+.hint{margin:0 0 10px;color:#bfe7f7; font-size: 0.9rem;}
+textarea{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.2);
+  background:rgba(255,255,255,.06);
+  color:#eaffff;
+  resize:vertical;
+  font-family: monospace;
+}
+.controls{display:flex;align-items:center;gap:16px;margin-top:12px}
+.btn{
+  border:0;
+  border-radius:999px;
+  padding:10px 24px;
+  cursor:pointer;
+  font-weight:700;
+  letter-spacing:.3px;
+  transition: all 0.2s ease;
+}
+.btn.primary{
+  background:linear-gradient(135deg,var(--aqua),#38bdf8);
+  color:var(--ocean-deep);
+}
+.btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.status{font-weight:600;color:#d1fae5; transition: color 0.3s ease;}
+.status.error { color: var(--error); }
+
+.results{display:flex;flex-direction:column;gap:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:14px}
+
+.kpi{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  text-align: center;
+  align-items: center;
+}
+
+.kpi-label{opacity:.9; font-size: 0.95rem;}
+.kpi-value{font-size:28px;color:#e0f2fe;font-weight:800}
+
+#kpi-novel.kpi-value {
+    color: #e0f2fe; 
+}
+
+.table-wrap{overflow:auto;margin-top:12px}
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px;border-bottom:1px solid rgba(255,255,255,.12);text-align:left}
+th{color:#e0f2fe}
+td{color:#e6fbff}
+
+.summary{display:flex;gap:12px;flex-wrap:wrap;margin:6px 0; justify-content: center;}
+.summary .pill{
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.2);
+  padding:6px 12px;
+  border-radius:999px;
+  font-size: 0.9rem;
+}
+
+.collapsible .collapse-header{
+  font-weight: 800;
+  cursor: pointer;
+  margin: -18px -24px;
+  padding: 18px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.collapsible .collapse-header span {
+  transition: transform 0.3s ease;
+  font-size: 1.2rem;
+}
+.collapsible .collapse-header.open span {
+  transform: rotate(180deg);
+}
+.collapse-content {
+  margin-top: 18px;
+}
+
+.status-pill {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.status-pill.identified {
+    background-color: rgba(20, 184, 166, 0.2);
+    color: var(--aqua);
+}
+
+.status-pill.novel {
+    background-color: rgba(245, 158, 11, 0.2);
+    color: var(--novel);
+}
+
+
+.hidden{display:none}
+
+.waves{position:fixed;left:0;bottom:0;width:100%;height:10vh;min-height:100px;max-height:160px;z-index:-1;}
+.parallax>use{animation:move-forever 25s cubic-bezier(.55,.5,.45,.5) infinite}
+.parallax>use:nth-child(1){animation-delay:-2s;animation-duration:7s}
+.parallax>use:nth-child(2){animation-delay:-3s;animation-duration:10s}
+.parallax>use:nth-child(3){animation-delay:-4s;animation-duration:13s}
+.parallax>use:nth-child(4){animation-delay:-5s;animation-duration:20s}
+@keyframes move-forever{0%{transform:translate3d(-90px,0,0)}100%{transform:translate3d(85px,0,0)}}
+
+@media (max-width:900px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:560px){
+  .grid{grid-template-columns:1fr}
+}
+

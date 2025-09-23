@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Deep Sea eDNA Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="ocean-bg">
+      <div class="header">
+        <div class="brand">
+          <h1>Deep Sea eDNA Analyzer</h1>
+        </div>
+        <p class="tagline">Explore marine biodiversity from a single DNA sequence</p>
+      </div>
+
+      <main class="container">
+        <section class="card input-card">
+          <h2>Input DNA sequences</h2>
+          <p class="hint">Paste one or more DNA sequences (one per line). Only A/C/T/G will be considered.</p>
+          <textarea id="dna-input" placeholder="ATGCGTACGTTAGC...
+TTGCGTACGTTAGA..." spellcheck="false" rows="8"></textarea>
+          <div class="controls">
+            <button id="analyze-btn" class="btn primary">Analyze</button>
+            <div id="status" class="status"></div>
+          </div>
+        </section>
+
+        <section id="results-section" class="results">
+          <div class="grid">
+            <div class="card kpi">
+              <div class="kpi-label">Species Richness (No. od Clusters)</div>
+              <div id="kpi-richness" class="kpi-value">—</div>
+            </div>
+            <div class="card kpi">
+              <div class="kpi-label">Shannon Diversity Index</div>
+              <div id="kpi-shannon" class="kpi-value">—</div>
+            </div>
+            <div class="card kpi">
+              <div class="kpi-label">Simpson's Diversity Index</div>
+              <div id="kpi-simpson" class="kpi-value">—</div>
+            </div>
+            <div class="card kpi">
+              <div class="kpi-label">Pielou's Evenness Index</div>
+              <div id="kpi-pielou" class="kpi-value">—</div>
+            </div>
+          </div>
+
+          <div class="card kpi">
+            <div class="kpi-label">Novel Taxa Discovered</div>
+            <div id="kpi-novel" class="kpi-value">—</div>
+          </div>
+
+          <div class="card">
+            <h3>Taxonomic Summary</h3>
+             <div class="summary">
+                <div class="pill">Identified Taxa: <span id="summary-identified">0</span></div>
+                <div class="pill">Noise Points: <span id="summary-noise">0</span></div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Cluster ID:</th>
+                    <th>Discovery Status:</th>
+                    <th>Abundance:</th>
+                    <th>Confidence:</th>
+                    <th>Taxon Name:</th>
+                    <th>Taxonomic Level:</th>
+                  </tr>
+                </thead>
+                <tbody id="taxa-rows">
+                  <tr>
+                    <td colspan="6" style="text-align: center; opacity: 0.7;">Awaiting analysis...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card collapsible">
+            <h3 class="collapse-header" data-collapse="pca-plot-content">
+              DBSCAN Clusters (PCA 2D)
+              <span>&#9660;</span>
+            </h3>
+            <div id="pca-plot-content" class="collapse-content hidden">
+              <p class="hint">Visualization of sequence clusters in a 2D latent space.</p>
+              <img id="pca-plot-img" src="" alt="DBSCAN Clusters Plot" style="width: 100%; border-radius: 8px; margin-top: 10px; background: rgba(0,0,0,0.2);">
+            </div>
+          </div>
+
+          <div class="card collapsible">
+            <h3 class="collapse-header" data-collapse="k-distance-plot-content">
+              K-distance Plot
+              <span>&#9660;</span>
+            </h3>
+            <div id="k-distance-plot-content" class="collapse-content hidden">
+              <p class="hint">Helps in determining the 'eps' parameter for DBSCAN.</p>
+              <img id="k-distance-plot-img" src="" alt="K-distance Plot" style="width: 100%; border-radius: 8px; margin-top: 10px; background: rgba(0,0,0,0.2);">
+            </div>
+          </div>
+
+        </section>
+      </main>
+
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" viewBox="0 24 150 28" preserveAspectRatio="none">
+        <defs>
+          <path id="wave" d="M-160 44c30 0 58-18 88-18s58 18 88 18 58-18 88-18 58 18 88 18v44h-352z"/>
+        </defs>
+        <g class="parallax">
+          <use href="#wave" x="48" y="0" fill="rgba(255,255,255,0.7)"/>
+          <use href="#wave" x="48" y="3" fill="rgba(255,255,255,0.5)"/>
+          <use href="#wave" x="48" y="5" fill="rgba(255,255,255,0.3)"/>
+          <use href="#wave" x="48" y="7" fill="#fff"/>
+        </g>
+      </svg>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>
+
