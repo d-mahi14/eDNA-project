@@ -1,126 +1,132 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Deep Sea eDNA Analyzer</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eDNA Analyzer Pro</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;800&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div class="ocean-bg">
-      <div class="header">
-        <div class="brand">
-          <h1>Deep Sea eDNA Analyzer</h1>
-        </div>
-        <p class="tagline">Explore marine biodiversity from a single DNA sequence</p>
-      </div>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="ocean-bg">
+    <div class="page-wrapper">
+        <header class="header">
+            <h1 class="title">Deep Sea eDNA Analyzer</h1>
+            <p class="tagline">Uncover marine biodiversity from environmental DNA.</p>
+        </header>
 
-      <main class="container">
-        <section class="card input-card">
-          <h2>Input DNA sequences</h2>
-          <p class="hint">Paste one or more DNA sequences (one per line). Only A/C/T/G will be considered.</p>
-          <textarea id="dna-input" placeholder="ATGCGTACGTTAGC...
-TTGCGTACGTTAGA..." spellcheck="false" rows="8"></textarea>
-          <div class="controls">
-            <button id="analyze-btn" class="btn primary">Analyze</button>
-            <div id="status" class="status"></div>
-          </div>
-        </section>
+        <main class="container">
+            <section class="card input-card">
+                <h2 class="card-title">Input DNA Sequences</h2>
+                <p class="hint">Paste sequences in FASTA format, or one sequence per line. You can also load a sample dataset.</p>
+                <textarea id="dna-input" placeholder=">Sequence_1&#10;ATGCGTACGTTAGC...&#10;>Sequence_2&#10;TTGCGTACGTTAGA..." spellcheck="false"></textarea>
+                <div class="controls">
+                    <button id="analyze-btn" class="btn primary">
+                        <svg id="analyze-icon" class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 00-1-1v-.5a1.5 1.5 0 01-3 0V15a1 1 0 00-1-1H4a1 1 0 01-1-1v-3a1 1 0 011-1h.5a1.5 1.5 0 000-3H4a1 1 0 01-1-1V5a1 1 0 011-1h3a1 1 0 001-1v-.5z" /></svg>
+                        <svg id="loading-spinner" class="icon hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span id="analyze-btn-text">Analyze</span>
+                    </button>
+                    <button id="load-sample-btn" class="btn secondary">
+                         <svg id="load-icon" class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+                         <svg id="load-spinner" class="icon hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span id="load-btn-text">Load Sample Data</span>
+                    </button>
+                    <div id="status" class="status"></div>
+                </div>
+            </section>
 
-        <section id="results-section" class="results">
-          <div class="grid">
-            <div class="card kpi">
-              <div class="kpi-label">Species Richness (No. od Clusters)</div>
-              <div id="kpi-richness" class="kpi-value">—</div>
-            </div>
-            <div class="card kpi">
-              <div class="kpi-label">Shannon Diversity Index</div>
-              <div id="kpi-shannon" class="kpi-value">—</div>
-            </div>
-            <div class="card kpi">
-              <div class="kpi-label">Simpson's Diversity Index</div>
-              <div id="kpi-simpson" class="kpi-value">—</div>
-            </div>
-            <div class="card kpi">
-              <div class="kpi-label">Pielou's Evenness Index</div>
-              <div id="kpi-pielou" class="kpi-value">—</div>
-            </div>
-          </div>
+            <div id="results-section" class="results-container hidden">
+                <h2 class="results-title">Analysis Results</h2>
 
-          <div class="card kpi">
-            <div class="kpi-label">Novel Taxa Discovered</div>
-            <div id="kpi-novel" class="kpi-value">—</div>
-          </div>
+                <div class="kpi-grid">
+                    <div class="card kpi-card tooltip"><span id="kpi-richness" class="kpi-value">0</span><span class="kpi-label">Species Richness</span><p class="tooltip-text">Total number of distinct species (clusters) identified.</p></div>
+                    <div class="card kpi-card tooltip"><span id="kpi-shannon" class="kpi-value">0.00</span><span class="kpi-label">Shannon Index</span><p class="tooltip-text">Measures species diversity, considering richness and evenness.</p></div>
+                    <div class="card kpi-card tooltip"><span id="kpi-simpson" class="kpi-value">0.00</span><span class="kpi-label">Simpson Index</span><p class="tooltip-text">Probability that two randomly selected individuals will be of the same species.</p></div>
+                    <div class="card kpi-card tooltip"><span id="kpi-pielou" class="kpi-value">0.00</span><span class="kpi-label">Pielou's Evenness</span><p class="tooltip-text">How evenly species are distributed. Ranges from 0 (uneven) to 1 (even).</p></div>
+                    <div class="card kpi-card tooltip kpi-novel-card"><span id="kpi-novel" class="kpi-value novel">0</span><span class="kpi-label">Novel Clusters</span><p class="tooltip-text">Number of distinct clusters that could not be matched to a known species.</p></div>
+                </div>
 
-          <div class="card">
-            <h3>Taxonomic Summary</h3>
-             <div class="summary">
-                <div class="pill">Identified Taxa: <span id="summary-identified">0</span></div>
-                <div class="pill">Noise Points: <span id="summary-noise">0</span></div>
+                <div class="card">
+                    <h3 class="card-title">Taxonomic Summary</h3>
+                    <div class="summary-pills">
+                      <div class="pill">Identified Taxa: <span id="summary-identified">0</span></div>
+                       <div class="pill">Novel Clusters: <span id="summary-novel">0</span></div>
+                      <div id="noise-pill" class="pill interactive-pill">
+                        <span>Noise Points: <span id="summary-noise">0</span></span>
+                        <svg class="icon arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+                      </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="results-table">
+                            <thead>
+                                <tr>
+                                    <th>Cluster ID</th>
+                                    <th>Status</th>
+                                    <th>Abundance</th>
+                                    <th>Confidence</th>
+                                    <th>Taxon Name</th>
+                                    <th>Level</th>
+                                </tr>
+                            </thead>
+                            <tbody id="taxa-rows"></tbody>
+                        </table>
+                        <div id="table-placeholder" class="table-placeholder">Awaiting analysis...</div>
+                    </div>
+                </div>
+
+                <div class="plots-grid">
+                    <div class="card plot-card">
+                        <div class="card-header">
+                             <h3 class="card-title">HDBSCAN Clusters (UMAP)</h3>
+                             <button class="expand-btn" data-plot-target="cluster-plot-img" aria-label="Expand Cluster Plot">
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5zM5 11a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 100-2H6.414l6.293-6.293a1 1 0 10-1.414-1.414L5 13.586V11z" /></svg>
+                             </button>
+                        </div>
+                        <p class="hint">Visualization of sequence clusters in a 2D space using UMAP.</p>
+                        <img id="cluster-plot-img" src="" alt="HDBSCAN Clusters (UMAP) Plot" class="plot-image hidden">
+                    </div>
+                </div>
             </div>
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Cluster ID:</th>
-                    <th>Discovery Status:</th>
-                    <th>Abundance:</th>
-                    <th>Confidence:</th>
-                    <th>Taxon Name:</th>
-                    <th>Taxonomic Level:</th>
-                  </tr>
-                </thead>
-                <tbody id="taxa-rows">
-                  <tr>
-                    <td colspan="6" style="text-align: center; opacity: 0.7;">Awaiting analysis...</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+        </main>
+    </div>
 
-          <div class="card collapsible">
-            <h3 class="collapse-header" data-collapse="pca-plot-content">
-              DBSCAN Clusters (PCA 2D)
-              <span>&#9660;</span>
-            </h3>
-            <div id="pca-plot-content" class="collapse-content hidden">
-              <p class="hint">Visualization of sequence clusters in a 2D latent space.</p>
-              <img id="pca-plot-img" src="" alt="DBSCAN Clusters Plot" style="width: 100%; border-radius: 8px; margin-top: 10px; background: rgba(0,0,0,0.2);">
-            </div>
-          </div>
-
-          <div class="card collapsible">
-            <h3 class="collapse-header" data-collapse="k-distance-plot-content">
-              K-distance Plot
-              <span>&#9660;</span>
-            </h3>
-            <div id="k-distance-plot-content" class="collapse-content hidden">
-              <p class="hint">Helps in determining the 'eps' parameter for DBSCAN.</p>
-              <img id="k-distance-plot-img" src="" alt="K-distance Plot" style="width: 100%; border-radius: 8px; margin-top: 10px; background: rgba(0,0,0,0.2);">
-            </div>
-          </div>
-
-        </section>
-      </main>
-
-      <svg class="waves" xmlns="http://www.w3.org/2000/svg" viewBox="0 24 150 28" preserveAspectRatio="none">
-        <defs>
-          <path id="wave" d="M-160 44c30 0 58-18 88-18s58 18 88 18 58-18 88-18 58 18 88 18v44h-352z"/>
-        </defs>
+    <!-- Waves SVG -->
+    <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs><path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" /></defs>
         <g class="parallax">
-          <use href="#wave" x="48" y="0" fill="rgba(255,255,255,0.7)"/>
-          <use href="#wave" x="48" y="3" fill="rgba(255,255,255,0.5)"/>
-          <use href="#wave" x="48" y="5" fill="rgba(255,255,255,0.3)"/>
-          <use href="#wave" x="48" y="7" fill="#fff"/>
+            <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(20,184,166,0.3)" />
+            <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(14,116,144,0.5)" />
+            <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(10,77,104,0.7)" />
+            <use xlink:href="#gentle-wave" x="48" y="7" fill="#062b4f" />
         </g>
-      </svg>
+    </svg>
+
+    <!-- Modals -->
+    <div id="plot-modal" class="modal-overlay hidden">
+        <div class="modal-content"><button id="modal-close-btn" class="modal-close">&times;</button><img id="modal-plot-img" src=""></div>
+    </div>
+    <div id="noise-modal" class="modal-overlay hidden">
+        <div class="modal-content noise-modal-content">
+            <button id="noise-modal-close-btn" class="modal-close">&times;</button>
+            <h2 class="modal-title">Noise Point Analysis</h2>
+            <p class="modal-hint">These sequences did not fall into a distinct cluster. They are listed below with their closest known taxonomic cluster.</p>
+            <div class="table-wrap">
+                <table class="results-table">
+                    <thead><tr><th>Noise Point ID</th><th>Closest Cluster</th><th>Closest Taxon</th><th>Distance</th></tr></thead>
+                    <tbody id="noise-modal-rows"></tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
-  </body>
+</body>
 </html>
 
