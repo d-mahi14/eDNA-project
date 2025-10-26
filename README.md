@@ -202,10 +202,12 @@ Biodiversity Metrics:
 
 **Rishit Modi**  
 💡 Developer in AI, ML  
-🌐 [GitHub Profile](https://github.com/RishitModi) 
+🌐 [GitHub Profile](https://github.com/RishitModi)
 
-**Mahi Desai**
-💡 Deep Learning Researcher
+---
+
+**Mahi Desai**  
+💡 Deep Learning Researcher  
 🌐 [GitHub Profile](https://github.com/d-mahi14)
 
 
