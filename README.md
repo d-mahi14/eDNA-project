@@ -200,6 +200,12 @@ Biodiversity Metrics:
 
 ## 🧑‍💻 Authors
 
+**MOKSHI SHAH**  
+💡 Developer in AI, ML  
+🌐 [GitHub Profile](https://github.com/Mokshii46)
+
+---
+
 **Rishit Modi**  
 💡 Developer in AI, ML  
 🌐 [GitHub Profile](https://github.com/RishitModi)
