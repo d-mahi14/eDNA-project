@@ -216,6 +216,13 @@ Biodiversity Metrics:
 💡 Deep Learning Researcher  
 🌐 [GitHub Profile](https://github.com/d-mahi14)
 
+---
+
+**ARYAN DOSHI**  
+💡 Developer in AI, ML  
+🌐 [GitHub Profile](https://github.com/aryan-2206)
+
+---
 
 ## ⚠️ Notes
 - Requires **≥50 valid sequences** for meaningful clustering  
