@@ -224,6 +224,12 @@ Biodiversity Metrics:
 
 ---
 
+**INDRANEEL HAJARNIS**  
+💡 Developer in AI, ML  
+🌐 [GitHub Profile](https://github.com/Indraneel-Hajarnis)
+
+---
+
 ## ⚠️ Notes
 - Requires **≥50 valid sequences** for meaningful clustering  
 - Random seeds are fixed (`42`) for reproducibility  
